@@ -33,9 +33,11 @@
 
     #typed-text {
       display: inline-block;
-      white-space: nowrap;
+      white-space: pre-line;
       overflow: hidden;
       width: 0;
+      max-width: 90vw;
+      word-break: break-word;
       animation: typing 4s steps(30, end) forwards;
     }
 
@@ -100,7 +102,8 @@
 <body>
 
   <div class="text-container" id="text-block">
-    <div id="typed-text">你好，我是最黑暗的光，遇见你可真幸运。</div>
+    <div id="typed-text">你好，我是最黑暗的光<br>
+                         遇见你可真幸运</div>
   </div>
 
   <button id="play-btn" class="play-btn" title="点击可播放音乐哦">♪</button>
