@@ -27,12 +27,11 @@
       overflow-x: scroll;
       overflow-y: hidden;
       -webkit-overflow-scrolling: touch;
-      scroll-behavior: smooth;
     }
 
     .scroll-inner {
       height: 100%;
-      width: 300vw; /* 根据背景图比例设定，可改大 */
+      width: 300vw;
       background: url('./bg.jpg') no-repeat center center;
       background-size: cover;
     }
@@ -113,7 +112,17 @@
       transition: opacity 2s ease, background 0.3s ease, transform 0.3s ease;
     }
 
-    @media (min-width: 600px) {
+    @media (min-width: 800px) {
+      .scroll-wrapper {
+        overflow: hidden;
+      }
+
+      .scroll-inner {
+        width: 100vw;
+        background: url('./bg.jpg') no-repeat center center;
+        background-size: cover;
+      }
+
       .play-btn {
         width: 60px;
         height: 60px;
@@ -130,12 +139,10 @@
 </head>
 <body>
 
-  <!-- 可横向滑动背景容器 -->
   <div class="scroll-wrapper" id="scroll-wrapper">
     <div class="scroll-inner"></div>
   </div>
 
-  <!-- 固定文字 -->
   <div class="text-container" id="text-block">
     <div class="typed-wrapper">
       <div id="typed-line1" class="typed-line">那些在黑暗中找不到光的生命</div>
@@ -143,7 +150,6 @@
     </div>
   </div>
 
-  <!-- 固定播放按钮 -->
   <button id="play-btn" class="play-btn" title="点击可播放音乐哦">♪</button>
 
   <audio id="bgm" loop>
@@ -157,7 +163,7 @@
     const playBtn = document.getElementById("play-btn");
     const scrollWrapper = document.getElementById("scroll-wrapper");
 
-    // 淡出文字
+    // 文字淡出
     setTimeout(() => {
       textBlock.classList.add("fade-out");
     }, 4700 + 5000);
@@ -173,7 +179,6 @@
       }
     });
 
-    // 鼠标悬浮调整透明度
     playBtn.addEventListener('mouseenter', () => {
       if (!playBtn.disabled) playBtn.style.opacity = '1';
     });
@@ -182,17 +187,39 @@
       if (!playBtn.disabled) playBtn.style.opacity = '0.7';
     });
 
-    // 初始按钮透明度
     setTimeout(() => {
       playBtn.style.opacity = '0.7';
     }, 3000);
 
-    // 初始进入时滚动到中间
+    // 缓慢滚动到中间（仅移动端）
+    function smoothScrollToMiddle(duration = 2500) {
+      const start = scrollWrapper.scrollLeft;
+      const end = (scrollWrapper.scrollWidth - scrollWrapper.clientWidth) / 2;
+      const distance = end - start;
+      const startTime = performance.now();
+
+      function animate(time) {
+        const elapsed = time - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        scrollWrapper.scrollLeft = start + distance * easeInOutQuad(progress);
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        }
+      }
+
+      function easeInOutQuad(t) {
+        return t < 0.5
+          ? 2 * t * t
+          : -1 + (4 - 2 * t) * t;
+      }
+
+      requestAnimationFrame(animate);
+    }
+
     window.addEventListener('load', () => {
-      const scrollWidth = scrollWrapper.scrollWidth;
-      const clientWidth = scrollWrapper.clientWidth;
-      const centerScroll = (scrollWidth - clientWidth) / 2;
-      scrollWrapper.scrollLeft = centerScroll;
+      if (window.innerWidth < 800) {
+        smoothScrollToMiddle(2500); // 设置滑动时长（毫秒）
+      }
     });
   </script>
 
