@@ -112,6 +112,11 @@
       transition: opacity 2s ease, background 0.3s ease, transform 0.3s ease;
     }
 
+    audio {
+      display: none;
+    }
+
+    /* 电脑端样式覆盖 */
     @media (min-width: 800px) {
       .scroll-wrapper {
         overflow: hidden;
@@ -130,10 +135,16 @@
         bottom: 30px;
         left: 30px;
       }
-    }
 
-    audio {
-      display: none;
+      /* 放慢电脑端打字动画速度 */
+      #typed-line1 {
+        animation-duration: 4s;
+      }
+
+      #typed-line2 {
+        animation-duration: 3.5s;
+        animation-delay: 4.2s;
+      }
     }
   </style>
 </head>
@@ -191,7 +202,7 @@
       playBtn.style.opacity = '0.7';
     }, 3000);
 
-    // 缓慢滚动到中间（仅移动端）
+    // 平滑滚动到中间
     function smoothScrollToMiddle(duration = 2500) {
       const start = scrollWrapper.scrollLeft;
       const end = (scrollWrapper.scrollWidth - scrollWrapper.clientWidth) / 2;
@@ -208,9 +219,7 @@
       }
 
       function easeInOutQuad(t) {
-        return t < 0.5
-          ? 2 * t * t
-          : -1 + (4 - 2 * t) * t;
+        return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
       }
 
       requestAnimationFrame(animate);
@@ -218,7 +227,7 @@
 
     window.addEventListener('load', () => {
       if (window.innerWidth < 800) {
-        smoothScrollToMiddle(2500); // 设置滑动时长（毫秒）
+        smoothScrollToMiddle(2500); // 设置移动端滑动时间
       }
     });
   </script>
