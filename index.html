@@ -23,7 +23,6 @@
     .scroll-container {
       width: 300vw;
       height: 100vh;
-      visibility: hidden; /* 初始隐藏 */
     }
 
     .background {
@@ -129,7 +128,7 @@
 <body>
 
   <!-- 背景滑动区域 -->
-  <div class="scroll-container" id="scroll-area">
+  <div class="scroll-container">
     <div class="background"></div>
   </div>
 
@@ -150,6 +149,12 @@
 
   <!-- 脚本逻辑 -->
   <script>
+    // 页面加载后自动滚动到中间
+    window.addEventListener('load', () => {
+      const scrollX = (document.body.scrollWidth - window.innerWidth) / 2;
+      window.scrollTo({ left: scrollX, top: 0, behavior: 'instant' });
+    });
+
     const textBlock = document.getElementById("text-block");
     const audio = document.getElementById("bgm");
     const playBtn = document.getElementById("play-btn");
@@ -170,7 +175,6 @@
       }
     });
 
-    // 鼠标悬停按钮效果
     playBtn.addEventListener('mouseenter', () => {
       playBtn.style.opacity = '1';
     });
@@ -179,17 +183,9 @@
       playBtn.style.opacity = '0.7';
     });
 
-    // 初始自动淡出按钮
     setTimeout(() => {
       playBtn.style.opacity = '0.7';
     }, 3000);
-
-    // 页面加载完后立即滚动居中 + 解除隐藏
-    window.addEventListener('DOMContentLoaded', () => {
-      const scrollArea = document.getElementById('scroll-area');
-      scrollArea.scrollLeft = scrollArea.scrollWidth / 2;
-      scrollArea.style.visibility = 'visible';
-    });
   </script>
 
 </body>
