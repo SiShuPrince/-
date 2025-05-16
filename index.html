@@ -62,24 +62,39 @@
   </div>
 
   <!-- 圆形播放按钮 -->
-<button id="play-btn" title="点击可播放音乐哦" style="
+<style>
+  /* 播放中旋转动画 */
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .rotating {
+    animation: spin 2s linear infinite;
+  }
+</style>
+
+<!-- 更大更显眼的圆形按钮 -->
+<button id="play-btn" title="点击播放音乐" style="
   position: fixed;
-  bottom: 20px;
-  left: 20px;
-  width: 50px;
-  height: 50px;
+  bottom: 30px;
+  left: 30px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
-  background: rgba(0,0,0,0.6);
+  background: rgba(255, 255, 255, 0.15);
   color: white;
-  font-size: 24px;
+  font-size: 30px;
   border: none;
   cursor: pointer;
   z-index: 999;
   opacity: 1;
-  transition: opacity 2s ease, background 0.3s ease;
+  transition: opacity 2s ease, background 0.3s ease, transform 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 0 10px rgba(255,255,255,0.3);
 ">
   ♪
 </button>
@@ -96,9 +111,13 @@
 
   // 点击按钮播放音乐
   playBtn.addEventListener('click', () => {
-    audio.play();
-    playBtn.style.opacity = '0.3'; // 播放后变淡
-    playBtn.disabled = true;
+    if (audio.paused) {
+      audio.play();
+      playBtn.classList.add('rotating');
+    } else {
+      audio.pause();
+      playBtn.classList.remove('rotating');
+    }
   });
 
   // 悬停时变亮
