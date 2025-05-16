@@ -23,6 +23,7 @@
     .scroll-container {
       width: 300vw;
       height: 100vh;
+      visibility: hidden; /* 初始隐藏 */
     }
 
     .background {
@@ -127,10 +128,12 @@
 </head>
 <body>
 
-  <div class="scroll-container">
+  <!-- 背景滑动区域 -->
+  <div class="scroll-container" id="scroll-area">
     <div class="background"></div>
   </div>
 
+  <!-- 固定覆盖层 -->
   <div class="overlay">
     <div class="text-container" id="text-block">
       <div id="typed-line1" class="typed-line">那些在黑暗中找不到光的生命</div>
@@ -139,22 +142,24 @@
     <button id="play-btn" class="play-btn" title="点击可播放音乐哦">♪</button>
   </div>
 
+  <!-- 音频播放器 -->
   <audio id="bgm" loop>
     <source src="music.mp3" type="audio/mpeg" />
     您的浏览器不支持音频播放。
   </audio>
 
+  <!-- 脚本逻辑 -->
   <script>
     const textBlock = document.getElementById("text-block");
     const audio = document.getElementById("bgm");
     const playBtn = document.getElementById("play-btn");
 
-    // 打完字 + 停留后淡出
+    // 打字完成后 + 停留 5 秒后隐藏文字
     setTimeout(() => {
       textBlock.classList.add("fade-out");
     }, 4700 + 5000);
 
-    // 播放按钮交互
+    // 音乐播放控制
     playBtn.addEventListener('click', () => {
       if (audio.paused) {
         audio.play();
@@ -165,6 +170,7 @@
       }
     });
 
+    // 鼠标悬停按钮效果
     playBtn.addEventListener('mouseenter', () => {
       playBtn.style.opacity = '1';
     });
@@ -173,9 +179,17 @@
       playBtn.style.opacity = '0.7';
     });
 
+    // 初始自动淡出按钮
     setTimeout(() => {
       playBtn.style.opacity = '0.7';
     }, 3000);
+
+    // 页面加载完后立即滚动居中 + 解除隐藏
+    window.addEventListener('DOMContentLoaded', () => {
+      const scrollArea = document.getElementById('scroll-area');
+      scrollArea.scrollLeft = scrollArea.scrollWidth / 2;
+      scrollArea.style.visibility = 'visible';
+    });
   </script>
 
 </body>
