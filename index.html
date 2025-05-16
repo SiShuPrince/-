@@ -75,17 +75,18 @@
   }
 </style>
 
-<!-- 更大更显眼的圆形按钮 -->
-<button id="play-btn" title="点击可播放音乐哦" style="
+/* 默认适配手机（使用 vw） */
+.play-btn {
   position: fixed;
-  bottom: 30px;
-  left: 30px;
+  bottom: 5vw;
+  left: 5vw;
   width: 14vw;
   height: 14vw;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.15);
   color: white;
   font-size: 6vw;
+  font-family: 'MyCustomFont', sans-serif;
   border: none;
   cursor: pointer;
   z-index: 999;
@@ -96,9 +97,21 @@
   justify-content: center;
   backdrop-filter: blur(5px);
   box-shadow: 0 0 10px rgba(255,255,255,0.3);
-">
-  ♪
-</button>
+}
+
+/* 电脑宽屏设备用固定尺寸 */
+@media (min-width: 600px) {
+  .play-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+    bottom: 30px;
+    left: 30px;
+  }
+}
+
+<!-- 按钮 -->
+<button id="play-btn" class="play-btn" title="点击可播放音乐哦">♪</button>
 
 <!-- 音频播放器 -->
 <audio id="bgm" loop>
