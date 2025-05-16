@@ -33,13 +33,15 @@
       display: inline-block;
       white-space: nowrap;
       overflow: hidden;
-      animation: typing 4s steps(30, end)；
+      width: 0;
+      animation: typing 4s steps(30, end) forwards;
     }
 
     @keyframes typing {
       from { width: 0; }
-      to { width: 100%; }
+      to { width: 24em; }
     }
+
 
     @keyframes blink {
       50% { border-color: transparent; }
