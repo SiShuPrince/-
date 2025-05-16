@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,17 +43,56 @@
       to { width: 24em; }
     }
 
-
-    @keyframes blink {
-      50% { border-color: transparent; }
-    }
-
     .hidden {
       display: none;
     }
 
     audio {
       display: none;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .rotating {
+      animation: spin 2s linear infinite;
+    }
+
+    /* 默认适配手机 */
+    .play-btn {
+      position: fixed;
+      bottom: 5vw;
+      left: 5vw;
+      width: 14vw;
+      height: 14vw;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      font-size: 6vw;
+      font-family: 'MyCustomFont', sans-serif;
+      border: none;
+      cursor: pointer;
+      z-index: 999;
+      opacity: 1;
+      transition: opacity 2s ease, background 0.3s ease, transform 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 0 10px rgba(255,255,255,0.3);
+    }
+
+    /* 电脑宽屏使用固定尺寸 */
+    @media (min-width: 600px) {
+      .play-btn {
+        width: 60px;
+        height: 60px;
+        font-size: 28px;
+        bottom: 30px;
+        left: 30px;
+      }
     }
   </style>
 </head>
@@ -62,104 +102,47 @@
     <div id="typed-text">你好，我是最黑暗的光，遇见你可真幸运。</div>
   </div>
 
-  <!-- 圆形播放按钮 -->
-<style>
-  /* 播放中旋转动画 */
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
+  <button id="play-btn" class="play-btn" title="点击可播放音乐哦">♪</button>
 
-  .rotating {
-    animation: spin 2s linear infinite;
-  }
-</style>
-
-/* 默认适配手机（使用 vw） */
-.play-btn {
-  position: fixed;
-  bottom: 5vw;
-  left: 5vw;
-  width: 14vw;
-  height: 14vw;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
-  font-size: 6vw;
-  font-family: 'MyCustomFont', sans-serif;
-  border: none;
-  cursor: pointer;
-  z-index: 999;
-  opacity: 1;
-  transition: opacity 2s ease, background 0.3s ease, transform 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(5px);
-  box-shadow: 0 0 10px rgba(255,255,255,0.3);
-}
-
-/* 电脑宽屏设备用固定尺寸 */
-@media (min-width: 600px) {
-  .play-btn {
-    width: 60px;
-    height: 60px;
-    font-size: 28px;
-    bottom: 30px;
-    left: 30px;
-  }
-}
-
-<!-- 按钮 -->
-<button id="play-btn" class="play-btn" title="点击可播放音乐哦">♪</button>
-
-<!-- 音频播放器 -->
-<audio id="bgm" loop>
-  <source src="music.mp3" type="audio/mpeg">
-  您的浏览器可不支持音频播放哦。
-</audio>
-
-<script>
-  const audio = document.getElementById('bgm');
-  const playBtn = document.getElementById('play-btn');
-
-  // 点击按钮播放音乐
-  playBtn.addEventListener('click', () => {
-    if (audio.paused) {
-      audio.play();
-      playBtn.classList.add('rotating');
-    } else {
-      audio.pause();
-      playBtn.classList.remove('rotating');
-    }
-  });
-
-  // 悬停时变亮
-  playBtn.addEventListener('mouseenter', () => {
-    if (!playBtn.disabled) {
-      playBtn.style.opacity = '1';
-    }
-  });
-  playBtn.addEventListener('mouseleave', () => {
-    if (!playBtn.disabled) {
-      playBtn.style.opacity = '0.7';
-    }
-  });
-
-  // 初始3秒后淡出一点
-  setTimeout(() => {
-    playBtn.style.opacity = '0.7';
-  }, 3000);
-</script>
-
+  <audio id="bgm" loop>
+    <source src="music.mp3" type="audio/mpeg">
+    您的浏览器可不支持音频播放哦。
+  </audio>
 
   <script>
-    // 等待打字动画 + 停留 5 秒后隐藏文字
+    const audio = document.getElementById('bgm');
+    const playBtn = document.getElementById('play-btn');
+
+    playBtn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play();
+        playBtn.classList.add('rotating');
+      } else {
+        audio.pause();
+        playBtn.classList.remove('rotating');
+      }
+    });
+
+    playBtn.addEventListener('mouseenter', () => {
+      if (!playBtn.disabled) {
+        playBtn.style.opacity = '1';
+      }
+    });
+
+    playBtn.addEventListener('mouseleave', () => {
+      if (!playBtn.disabled) {
+        playBtn.style.opacity = '0.7';
+      }
+    });
+
+    setTimeout(() => {
+      playBtn.style.opacity = '0.7';
+    }, 3000);
+
     setTimeout(function () {
       document.getElementById("text-block").classList.add("hidden");
-    }, 4000 + 5000); // 4s 打字 + 5s 停留
+    }, 4000 + 5000);
   </script>
 
 </body>
 </html>
-
