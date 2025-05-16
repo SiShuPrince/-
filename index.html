@@ -10,30 +10,31 @@
       src: url('./myfont.ttf') format('truetype');
     }
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-      font-family: 'MyCustomFont', sans-serif;
-    }
-
     body {
+      margin: 0;
+      height: 100vh;
       background: url('./bg.jpg') no-repeat center center;
       background-size: cover;
+      font-family: 'MyCustomFont', sans-serif;
+      overflow: hidden;
     }
 
     .text-container {
       position: absolute;
       top: 20%;
-      left: 50%;
-      transform: translateX(-50%);
+      width: 100%;
       text-align: center;
       color: white;
       font-size: 2em;
       letter-spacing: 0.05em;
       text-shadow: 2px 2px 8px #000;
       transition: opacity 1s ease;
+    }
+
+    .typed-wrapper {
+      max-width: 90vw;
+      margin: 0 auto;
+      overflow: hidden;
     }
 
     .typed-line {
@@ -58,10 +59,8 @@
 
     .fade-out {
       opacity: 0;
-      pointer-events: none;
     }
 
-    /* 播放按钮动画和样式 */
     @keyframes spin {
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
@@ -112,15 +111,17 @@
 <body>
 
   <div class="text-container" id="text-block">
-    <div id="typed-line1" class="typed-line">你好，我是最黑暗的光</div><br>
-    <div id="typed-line2" class="typed-line">遇见你可真幸运</div>
+    <div class="typed-wrapper">
+      <div id="typed-line1" class="typed-line">你好，我是最黑暗的光</div><br>
+      <div id="typed-line2" class="typed-line">遇见你可真幸运。</div>
+    </div>
   </div>
 
   <button id="play-btn" class="play-btn" title="点击可播放音乐哦">♪</button>
 
   <audio id="bgm" loop>
     <source src="music.mp3" type="audio/mpeg">
-    您的浏览器不支持音频播放。
+    您的浏览器可不支持音频播放哦。
   </audio>
 
   <script>
@@ -131,7 +132,7 @@
     // 打完字 + 停留后淡出
     setTimeout(() => {
       textBlock.classList.add("fade-out");
-    }, 4700 + 5000); // 打字 + 停留5s后淡出
+    }, 4700 + 5000);
 
     // 播放按钮交互
     playBtn.addEventListener('click', () => {
