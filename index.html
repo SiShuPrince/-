@@ -10,17 +10,30 @@
       src: url('./myfont.ttf') format('truetype');
     }
 
-    body {
+    html, body {
       margin: 0;
-      height: 100vh;
+      height: 100%;
       overflow: hidden;
       font-family: 'MyCustomFont', sans-serif;
-      background: url('./bg.jpg') no-repeat center center;
-      background-size: cover;
+    }
+
+    .scroll-container {
+      width: 200vw; /* 让图片可以横向滑动，按需加大 */
+      height: 100vh;
+      overflow-x: scroll;
+      white-space: nowrap;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .scroll-container img {
+      height: 100vh;
+      display: inline-block;
     }
 
     .text-container {
-      position: absolute;
+      position: fixed;
       top: 15%;
       width: 100%;
       text-align: center;
@@ -29,10 +42,11 @@
       letter-spacing: 0.05em;
       text-shadow: 2px 2px 8px #000;
       transition: opacity 1s ease;
+      z-index: 1000;
+      pointer-events: none;
     }
 
     .typed-wrapper {
-      position: relative;
       max-width: 90vw;
       margin: 0 auto;
     }
@@ -83,7 +97,7 @@
       font-family: 'MyCustomFont', sans-serif;
       border: none;
       cursor: pointer;
-      z-index: 999;
+      z-index: 9999;
       opacity: 1;
       transition: opacity 2s ease, background 0.3s ease, transform 0.3s ease;
       display: flex;
@@ -109,6 +123,10 @@
   </style>
 </head>
 <body>
+
+  <div class="scroll-container">
+    <img src="./bg.jpg" alt="背景图" />
+  </div>
 
   <div class="text-container" id="text-block">
     <div class="typed-wrapper">
