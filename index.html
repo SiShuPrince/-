@@ -10,13 +10,42 @@
       src: url('./myfont.ttf') format('truetype');
     }
 
-    body {
+    html, body {
       margin: 0;
-      height: 100vh;
+      padding: 0;
       overflow: hidden;
+      width: 100vw;
+      height: 100vh;
       font-family: 'MyCustomFont', sans-serif;
+    }
+
+    .scroll-container {
+      width: 300vw; /* 横向滚动区域 */
+      height: 100vh;
+      display: flex;
+      overflow-x: scroll;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+    }
+
+    .background {
+      flex: none;
+      width: 100vw;
+      height: 100vh;
       background: url('./bg.jpg') no-repeat center center;
       background-size: cover;
+      scroll-snap-align: center;
+    }
+
+    .fixed-layer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 10;
     }
 
     .text-container {
@@ -29,6 +58,7 @@
       letter-spacing: 0.05em;
       text-shadow: 2px 2px 8px #000;
       transition: opacity 1s ease;
+      pointer-events: none;
     }
 
     .typed-wrapper {
@@ -91,6 +121,7 @@
       justify-content: center;
       backdrop-filter: blur(5px);
       box-shadow: 0 0 10px rgba(255,255,255,0.3);
+      pointer-events: auto;
     }
 
     @media (min-width: 600px) {
@@ -110,10 +141,20 @@
 </head>
 <body>
 
-  <div class="text-container" id="text-block">
-    <div class="typed-wrapper">
-      <div id="typed-line1" class="typed-line">那些在黑暗中找不到光的生命</div>
-      <div id="typed-line2" class="typed-line">大多学会了自己发光</div>
+  <!-- 滚动背景区域 -->
+  <div class="scroll-container" id="scroll-area">
+    <div class="background"></div>
+    <div class="background"></div>
+    <div class="background"></div>
+  </div>
+
+  <!-- 固定层：文字 + 按钮 -->
+  <div class="fixed-layer">
+    <div class="text-container" id="text-block">
+      <div class="typed-wrapper">
+        <div id="typed-line1" class="typed-line">那些在黑暗中找不到光的生命</div>
+        <div id="typed-line2" class="typed-line">大多学会了自己发光</div>
+      </div>
     </div>
   </div>
 
@@ -128,13 +169,19 @@
     const textBlock = document.getElementById("text-block");
     const audio = document.getElementById("bgm");
     const playBtn = document.getElementById("play-btn");
+    const scrollArea = document.getElementById("scroll-area");
+
+    // 让页面打开时滚动到中间背景
+    window.onload = () => {
+      scrollArea.scrollLeft = scrollArea.scrollWidth / 3;
+    };
 
     // 淡出文字
     setTimeout(() => {
       textBlock.classList.add("fade-out");
-    }, 4700 + 5000); // 动画+停留
+    }, 4700 + 5000);
 
-    // 音乐按钮交互
+    // 播放按钮控制音乐播放和旋转
     playBtn.addEventListener('click', () => {
       if (audio.paused) {
         audio.play();
