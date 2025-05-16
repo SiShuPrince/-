@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>最黑暗的光</title>
   <style>
     @font-face {
@@ -13,10 +13,10 @@
     body {
       margin: 0;
       height: 100vh;
+      overflow: hidden;
+      font-family: 'MyCustomFont', sans-serif;
       background: url('./bg.jpg') no-repeat center center;
       background-size: cover;
-      font-family: 'MyCustomFont', sans-serif;
-      overflow: hidden;
     }
 
     .text-container {
@@ -32,17 +32,17 @@
     }
 
     .typed-wrapper {
-      text-align: center;
-      width: 100%;
-      overflow: hidden;
+      position: relative;
+      max-width: 90vw;
+      margin: 0 auto;
     }
 
     .typed-line {
       display: block;
-      margin: 0 auto;
-      white-space: nowrap;
       overflow: hidden;
+      white-space: nowrap;
       width: 0;
+      margin: 0 auto;
       animation: typing 2.5s steps(30, end) forwards;
     }
 
@@ -50,12 +50,11 @@
       animation-delay: 2.8s;
       animation-duration: 2.2s;
       animation-fill-mode: forwards;
-      animation-name: typing;
     }
 
     @keyframes typing {
       from { width: 0; }
-      to { width: 24em; }
+      to { width: 100%; }
     }
 
     .fade-out {
@@ -113,7 +112,7 @@
 
   <div class="text-container" id="text-block">
     <div class="typed-wrapper">
-      <div id="typed-line1" class="typed-line">你好，我是最黑暗的光</div><br>
+      <div id="typed-line1" class="typed-line">你好，我是最黑暗的光</div>
       <div id="typed-line2" class="typed-line">遇见你可真幸运。</div>
     </div>
   </div>
@@ -121,8 +120,8 @@
   <button id="play-btn" class="play-btn" title="点击可播放音乐哦">♪</button>
 
   <audio id="bgm" loop>
-    <source src="music.mp3" type="audio/mpeg">
-    您的浏览器可不支持音频播放哦。
+    <source src="music.mp3" type="audio/mpeg" />
+    您的浏览器不支持音频播放。
   </audio>
 
   <script>
@@ -130,12 +129,12 @@
     const audio = document.getElementById("bgm");
     const playBtn = document.getElementById("play-btn");
 
-    // 打完字 + 停留后淡出
+    // 淡出文字
     setTimeout(() => {
       textBlock.classList.add("fade-out");
-    }, 4700 + 5000);
+    }, 4700 + 5000); // 动画+停留
 
-    // 播放按钮交互
+    // 音乐按钮交互
     playBtn.addEventListener('click', () => {
       if (audio.paused) {
         audio.play();
