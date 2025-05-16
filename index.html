@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,19 +10,24 @@
       src: url('./myfont.ttf') format('truetype');
     }
 
-    body {
+    html, body {
       margin: 0;
-      height: 100vh;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'MyCustomFont', sans-serif;
+    }
+
+    body {
       background: url('./bg.jpg') no-repeat center center;
       background-size: cover;
-      font-family: 'MyCustomFont', sans-serif;
-      overflow: hidden;
     }
 
     .text-container {
       position: absolute;
       top: 20%;
-      width: 100%;
+      left: 50%;
+      transform: translateX(-50%);
       text-align: center;
       color: white;
       font-size: 2em;
@@ -54,6 +58,7 @@
 
     .fade-out {
       opacity: 0;
+      pointer-events: none;
     }
 
     /* 播放按钮动画和样式 */
@@ -115,7 +120,7 @@
 
   <audio id="bgm" loop>
     <source src="music.mp3" type="audio/mpeg">
-    您的浏览器可不支持音频播放哦。
+    您的浏览器不支持音频播放。
   </audio>
 
   <script>
@@ -126,7 +131,7 @@
     // 打完字 + 停留后淡出
     setTimeout(() => {
       textBlock.classList.add("fade-out");
-    }, 4700 + 5000);
+    }, 4700 + 5000); // 打字 + 停留5s后淡出
 
     // 播放按钮交互
     playBtn.addEventListener('click', () => {
