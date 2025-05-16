@@ -29,16 +29,22 @@
       font-size: 2em;
       letter-spacing: 0.05em;
       text-shadow: 2px 2px 8px #000;
+      transition: opacity 1s ease;
     }
 
-    #typed-text {
+    .typed-line {
       display: inline-block;
-      white-space: pre-line;
       overflow: hidden;
+      white-space: nowrap;
       width: 0;
-      max-width: 90vw;
-      word-break: break-word;
-      animation: typing 4s steps(30, end) forwards;
+      animation: typing 2.5s steps(30, end) forwards;
+    }
+
+    #typed-line2 {
+      animation-delay: 2.8s;
+      animation-duration: 2.2s;
+      animation-fill-mode: forwards;
+      animation-name: typing;
     }
 
     @keyframes typing {
@@ -46,14 +52,11 @@
       to { width: 24em; }
     }
 
-    .hidden {
-      display: none;
+    .fade-out {
+      opacity: 0;
     }
 
-    audio {
-      display: none;
-    }
-
+    /* 播放按钮动画和样式 */
     @keyframes spin {
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
@@ -63,7 +66,6 @@
       animation: spin 2s linear infinite;
     }
 
-    /* 默认适配手机 */
     .play-btn {
       position: fixed;
       bottom: 5vw;
@@ -87,7 +89,6 @@
       box-shadow: 0 0 10px rgba(255,255,255,0.3);
     }
 
-    /* 电脑宽屏使用固定尺寸 */
     @media (min-width: 600px) {
       .play-btn {
         width: 60px;
@@ -97,13 +98,17 @@
         left: 30px;
       }
     }
+
+    audio {
+      display: none;
+    }
   </style>
 </head>
 <body>
 
   <div class="text-container" id="text-block">
-    <div id="typed-text">你好，我是最黑暗的光<br>
-                         遇见你可真幸运</div>
+    <div id="typed-line1" class="typed-line">你好，我是最黑暗的光</div><br>
+    <div id="typed-line2" class="typed-line">遇见你可真幸运。</div>
   </div>
 
   <button id="play-btn" class="play-btn" title="点击可播放音乐哦">♪</button>
@@ -114,9 +119,16 @@
   </audio>
 
   <script>
-    const audio = document.getElementById('bgm');
-    const playBtn = document.getElementById('play-btn');
+    const textBlock = document.getElementById("text-block");
+    const audio = document.getElementById("bgm");
+    const playBtn = document.getElementById("play-btn");
 
+    // 打完字 + 停留后淡出
+    setTimeout(() => {
+      textBlock.classList.add("fade-out");
+    }, 4700 + 5000);
+
+    // 播放按钮交互
     playBtn.addEventListener('click', () => {
       if (audio.paused) {
         audio.play();
@@ -128,24 +140,16 @@
     });
 
     playBtn.addEventListener('mouseenter', () => {
-      if (!playBtn.disabled) {
-        playBtn.style.opacity = '1';
-      }
+      if (!playBtn.disabled) playBtn.style.opacity = '1';
     });
 
     playBtn.addEventListener('mouseleave', () => {
-      if (!playBtn.disabled) {
-        playBtn.style.opacity = '0.7';
-      }
+      if (!playBtn.disabled) playBtn.style.opacity = '0.7';
     });
 
     setTimeout(() => {
       playBtn.style.opacity = '0.7';
     }, 3000);
-
-    setTimeout(function () {
-      document.getElementById("text-block").classList.add("hidden");
-    }, 4000 + 5000);
   </script>
 
 </body>
