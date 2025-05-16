@@ -38,19 +38,53 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      pointer-events: none; /* 不阻挡滑动 */
+      pointer-events: none;
     }
 
-    .text {
+    .text-container {
       position: absolute;
-      top: 20%;
+      top: 15%;
       width: 100%;
       text-align: center;
-      font-size: 1.6em;
       color: white;
+      font-size: 1.6em;
       letter-spacing: 0.05em;
       text-shadow: 2px 2px 8px #000;
-      pointer-events: auto; /* 让文字可被选中（可选） */
+      transition: opacity 1s ease;
+      pointer-events: auto;
+    }
+
+    .typed-line {
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 0;
+      margin: 0 auto;
+      animation: typing 2.5s steps(30, end) forwards;
+    }
+
+    #typed-line2 {
+      animation-delay: 2.8s;
+      animation-duration: 2.2s;
+      animation-fill-mode: forwards;
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    .fade-out {
+      opacity: 0;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .rotating {
+      animation: spin 2s linear infinite;
     }
 
     .play-btn {
@@ -93,30 +127,34 @@
 </head>
 <body>
 
-  <!-- 可滑动背景 -->
   <div class="scroll-container">
     <div class="background"></div>
   </div>
 
-  <!-- 固定层 -->
   <div class="overlay">
-    <div class="text">
-      那些在黑暗中找不到光的生命<br />
-      大多学会了自己发光
+    <div class="text-container" id="text-block">
+      <div id="typed-line1" class="typed-line">那些在黑暗中找不到光的生命</div>
+      <div id="typed-line2" class="typed-line">大多学会了自己发光</div>
     </div>
     <button id="play-btn" class="play-btn" title="点击可播放音乐哦">♪</button>
   </div>
 
-  <!-- 音频 -->
   <audio id="bgm" loop>
     <source src="music.mp3" type="audio/mpeg" />
     您的浏览器不支持音频播放。
   </audio>
 
   <script>
-    const playBtn = document.getElementById('play-btn');
-    const audio = document.getElementById('bgm');
+    const textBlock = document.getElementById("text-block");
+    const audio = document.getElementById("bgm");
+    const playBtn = document.getElementById("play-btn");
 
+    // 打完字 + 停留后淡出
+    setTimeout(() => {
+      textBlock.classList.add("fade-out");
+    }, 4700 + 5000);
+
+    // 播放按钮交互
     playBtn.addEventListener('click', () => {
       if (audio.paused) {
         audio.play();
