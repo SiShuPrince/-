@@ -13,76 +13,44 @@
     html, body {
       margin: 0;
       padding: 0;
+      overflow-x: scroll;
+      overflow-y: hidden;
+      width: 100vw;
       height: 100vh;
-      overflow: hidden;
       font-family: 'MyCustomFont', sans-serif;
     }
 
     .scroll-container {
+      width: 300vw;
       height: 100vh;
-      overflow-x: auto;
-      overflow-y: hidden;
-      white-space: nowrap;
     }
 
-    .content {
-      position: relative;
-      display: inline-block;
-      height: 100vh;
-      width: 200vw; /* 你可以根据图片尺寸调整，比如 2倍屏宽 */
+    .background {
+      width: 100%;
+      height: 100%;
       background: url('./bg.jpg') no-repeat center center;
       background-size: cover;
     }
 
-    .text-container {
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none; /* 不阻挡滑动 */
+    }
+
+    .text {
       position: absolute;
-      top: 15%;
+      top: 20%;
       width: 100%;
       text-align: center;
+      font-size: 1.6em;
       color: white;
-      font-size: 1.5em;
       letter-spacing: 0.05em;
       text-shadow: 2px 2px 8px #000;
-      transition: opacity 1s ease;
-    }
-
-    .typed-wrapper {
-      position: relative;
-      max-width: 90vw;
-      margin: 0 auto;
-    }
-
-    .typed-line {
-      display: block;
-      overflow: hidden;
-      white-space: nowrap;
-      width: 0;
-      margin: 0 auto;
-      animation: typing 2.5s steps(30, end) forwards;
-    }
-
-    #typed-line2 {
-      animation-delay: 2.8s;
-      animation-duration: 2.2s;
-      animation-fill-mode: forwards;
-    }
-
-    @keyframes typing {
-      from { width: 0; }
-      to { width: 100%; }
-    }
-
-    .fade-out {
-      opacity: 0;
-    }
-
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    .rotating {
-      animation: spin 2s linear infinite;
+      pointer-events: auto; /* 让文字可被选中（可选） */
     }
 
     .play-btn {
@@ -99,13 +67,13 @@
       border: none;
       cursor: pointer;
       z-index: 999;
-      opacity: 1;
-      transition: opacity 2s ease, background 0.3s ease, transform 0.3s ease;
+      transition: opacity 2s ease;
       display: flex;
       align-items: center;
       justify-content: center;
       backdrop-filter: blur(5px);
       box-shadow: 0 0 10px rgba(255,255,255,0.3);
+      pointer-events: auto;
     }
 
     @media (min-width: 600px) {
@@ -125,35 +93,30 @@
 </head>
 <body>
 
+  <!-- 可滑动背景 -->
   <div class="scroll-container">
-    <div class="content">
-      <div class="text-container" id="text-block">
-        <div class="typed-wrapper">
-          <div id="typed-line1" class="typed-line">那些在黑暗中找不到光的生命</div>
-          <div id="typed-line2" class="typed-line">大多学会了自己发光</div>
-        </div>
-      </div>
-    </div>
+    <div class="background"></div>
   </div>
 
-  <button id="play-btn" class="play-btn" title="点击可播放音乐哦">♪</button>
+  <!-- 固定层 -->
+  <div class="overlay">
+    <div class="text">
+      那些在黑暗中找不到光的生命<br />
+      大多学会了自己发光
+    </div>
+    <button id="play-btn" class="play-btn" title="点击可播放音乐哦">♪</button>
+  </div>
 
+  <!-- 音频 -->
   <audio id="bgm" loop>
     <source src="music.mp3" type="audio/mpeg" />
     您的浏览器不支持音频播放。
   </audio>
 
   <script>
-    const textBlock = document.getElementById("text-block");
-    const audio = document.getElementById("bgm");
-    const playBtn = document.getElementById("play-btn");
+    const playBtn = document.getElementById('play-btn');
+    const audio = document.getElementById('bgm');
 
-    // 淡出文字
-    setTimeout(() => {
-      textBlock.classList.add("fade-out");
-    }, 4700 + 5000); // 动画+停留
-
-    // 音乐按钮交互
     playBtn.addEventListener('click', () => {
       if (audio.paused) {
         audio.play();
@@ -165,11 +128,11 @@
     });
 
     playBtn.addEventListener('mouseenter', () => {
-      if (!playBtn.disabled) playBtn.style.opacity = '1';
+      playBtn.style.opacity = '1';
     });
 
     playBtn.addEventListener('mouseleave', () => {
-      if (!playBtn.disabled) playBtn.style.opacity = '0.7';
+      playBtn.style.opacity = '0.7';
     });
 
     setTimeout(() => {
