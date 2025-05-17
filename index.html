@@ -18,6 +18,12 @@
       font-family: 'MyCustomFont', sans-serif;
     }
 
+    /* 去除按钮点击高亮 */
+    button {
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
     .scroll-wrapper {
       position: absolute;
       top: 0;
@@ -136,7 +142,6 @@
         left: 30px;
       }
 
-      /* 放慢电脑端打字动画速度 */
       #typed-line1 {
         animation-duration: 4s;
       }
@@ -227,7 +232,7 @@
 
     window.addEventListener('load', () => {
       if (window.innerWidth < 800) {
-        smoothScrollToMiddle(2500); // 设置移动端滑动时间
+        smoothScrollToMiddle(2500); // 设置移动端滑动时长
       }
     });
   </script>
